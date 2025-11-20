@@ -51,28 +51,44 @@
         background: #2e7d32;
       }
       .snowflake {
-    position: fixed;
-    top: -10px;
-    color: white;
-    user-select: none;
-    font-size: 12px;
-    opacity: 0.8;
-    pointer-events: none;
-    animation-name: fall;
-    animation-timing-function: linear;
-  }
+        position: fixed;
+        top: -10px;
+        color: white;
+        user-select: none;
+        font-size: 12px;
+        opacity: 0.8;
+        pointer-events: none;
+        animation-name: fall;
+        animation-timing-function: linear;
+      }
 
-  @keyframes fall {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(110vh); }
-  }
+      @keyframes fall {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(110vh);
+        }
+      }
+
+      .tyhjenna {
+        margin: 10px;
+        background-color: #c62828;
+        color: black;
+      }
     </style>
-    
   </head>
   <body>
-  
     <h1>Advent Calendar</h1>
     <div class="calendar" id="calendar"></div>
+
+    <input
+      type="button"
+      id="poista avaimet"
+      value="tyhjennä"
+      class="tyhjenna"
+      onclick="tyhjenna()"
+    />
 
     <script>
       const calendar = document.getElementById('calendar');
@@ -90,7 +106,11 @@
           box.classList.add('opened');
         }
 
-        if (i > currentDay) {
+        if (currentMonth !== 10) {
+          box.classList.add('locked');
+        }
+
+        if (currentMonth === 10 && i > currentDay) {
           box.classList.add('locked');
         }
 
@@ -103,35 +123,45 @@
 
         calendar.appendChild(box);
       }
+
+      //snowfall
+
       const snowflakeCount = 50; // Adjust density
 
-  function createSnowflake() {
-    const snowflake = document.createElement('div');
-    snowflake.classList.add('snowflake');
-    snowflake.textContent = '❄';
+      function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.textContent = '❄';
 
-    // Random horizontal position
-    snowflake.style.left = Math.random() * 100 + 'vw';
+        // Random horizontal position
+        snowflake.style.left = Math.random() * 100 + 'vw';
 
-    // Random size
-    const size = Math.random() * 10 + 8;
-    snowflake.style.fontSize = size + 'px';
+        // Random size
+        const size = Math.random() * 10 + 8;
+        snowflake.style.fontSize = size + 'px';
 
-    // Random fall duration
-    const duration = Math.random() * 5 + 5;
-    snowflake.style.animationDuration = duration + 's';
+        // Random fall duration
+        const duration = Math.random() * 5 + 5;
+        snowflake.style.animationDuration = duration + 's';
 
-    // Horizontal drift
-    const drift = (Math.random() - 0.5) * 30;
-    snowflake.style.transform = `translateX(${drift}px)`;
+        // Horizontal drift
+        const drift = (Math.random() - 0.5) * 30;
+        snowflake.style.transform = `translateX(${drift}px)`;
 
-    document.body.appendChild(snowflake);
+        document.body.appendChild(snowflake);
 
-    // Remove after done
-    setTimeout(() => snowflake.remove(), duration * 1000);
-  }
+        // Remove after done
+        setTimeout(() => snowflake.remove(), duration * 1000);
+      }
 
-  setInterval(createSnowflake, 300);
+      setInterval(createSnowflake, 300);
+
+      function tyhjenna() {
+        localStorage.clear();
+        location.reload();
+
+        console.log(localStorage.length);
+      }
     </script>
   </body>
 </html>
