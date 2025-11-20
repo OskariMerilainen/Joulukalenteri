@@ -50,9 +50,27 @@
       .day.opened {
         background: #2e7d32;
       }
+      .snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    user-select: none;
+    font-size: 12px;
+    opacity: 0.8;
+    pointer-events: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(110vh); }
+  }
     </style>
+    
   </head>
   <body>
+  
     <h1>Advent Calendar</h1>
     <div class="calendar" id="calendar"></div>
 
@@ -85,6 +103,35 @@
 
         calendar.appendChild(box);
       }
+      const snowflakeCount = 50; // Adjust density
+
+  function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.textContent = '❄';
+
+    // Random horizontal position
+    snowflake.style.left = Math.random() * 100 + 'vw';
+
+    // Random size
+    const size = Math.random() * 10 + 8;
+    snowflake.style.fontSize = size + 'px';
+
+    // Random fall duration
+    const duration = Math.random() * 5 + 5;
+    snowflake.style.animationDuration = duration + 's';
+
+    // Horizontal drift
+    const drift = (Math.random() - 0.5) * 30;
+    snowflake.style.transform = `translateX(${drift}px)`;
+
+    document.body.appendChild(snowflake);
+
+    // Remove after done
+    setTimeout(() => snowflake.remove(), duration * 1000);
+  }
+
+  setInterval(createSnowflake, 300);
     </script>
   </body>
 </html>
