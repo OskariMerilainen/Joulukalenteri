@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advent Calendar</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(6, 100px);
+        gap: 10px;
+      }
+
+      .day {
+        width: 100px;
+        height: 100px;
+        background: #c62828;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .day.locked {
+        background: gray;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      .day.opened {
+        background: #2e7d32;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Advent Calendar</h1>
+    <div class="calendar" id="calendar"></div>
+
+    <script>
+      const calendar = document.getElementById('calendar');
+      const today = new Date();
+      const currentDay = today.getDate();
+
+      for (let i = 1; i <= 24; i++) {
+        const box = document.createElement('div');
+        box.classList.add('day');
+        box.textContent = i;
+
+        // Check if opened in localStorage
+        const opened = localStorage.getItem(`day_${i}`) === 'true';
+        if (opened) {
+          box.classList.add('opened');
+        }
+
+        if (i > currentDay) {
+          box.classList.add('locked');
+        }
+
+        box.addEventListener('click', () => {
+          if (box.classList.contains('locked')) return;
+          box.classList.add('opened');
+          localStorage.setItem(`day_${i}`, 'true');
+          alert(`You opened day ${i}!`);
+        });
+
+        calendar.appendChild(box);
+      }
+    </script>
+  </body>
+</html>
