@@ -79,7 +79,7 @@
     </style>
   </head>
   <body>
-    <h1>Advent Calendar</h1>
+    <h1>Joulukalenteri</h1>
     <div class="calendar" id="calendar"></div>
 
     <input
@@ -116,6 +116,12 @@
 
         box.addEventListener('click', () => {
           if (box.classList.contains('locked')) return;
+
+          for (j = 1; j < i; j++) {
+            if (localStorage.getItem(`day_${j}`) !== 'true') {
+              return;
+            }
+          }
           box.classList.add('opened');
           localStorage.setItem(`day_${i}`, 'true');
           alert(`You opened day ${i}!`);
